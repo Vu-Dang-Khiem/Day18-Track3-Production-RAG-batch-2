@@ -1,6 +1,7 @@
 # Reflection — Lab 18: Production RAG Pipeline
 
 **Tác giả:** Vũ Đăng Khiêm  
+**MSSV:** 2A202600727  
 **Ngày:** 2026-06-22  
 **Project:** Production RAG Pipeline cho tài liệu nội bộ tiếng Việt
 

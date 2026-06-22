@@ -1,6 +1,6 @@
 # Failure Analysis — Lab 18: Production RAG
 
-**Cá nhân:** Hoàng Hải Đăng (2A202600916)
+**Cá nhân:** Vũ Đăng Khiêm (2A202600727)
 
 ---
 
