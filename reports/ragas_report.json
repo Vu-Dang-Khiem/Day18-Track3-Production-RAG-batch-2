@@ -1,0 +1,83 @@
+{
+  "aggregate": {
+    "faithfulness": 0.8333,
+    "answer_relevancy": 0.0988,
+    "context_precision": 0.4000,
+    "context_recall": 0.9333
+  },
+  "num_questions": 5,
+  "model": "llama-3.1-8b-instant (Groq free tier)",
+  "note": "Evaluated on 5/20 questions due to Groq free tier rate limit (6000 TPM). Pipeline: Hierarchical Chunking + Hybrid Search (BM25+Dense+RRF) + CrossEncoder Rerank.",
+  "failures": [
+    {
+      "question": "Thâm niên bao nhiêu năm thì được cộng thêm ngày phép?",
+      "avg_score": 0.4285,
+      "worst_metric": "context_precision",
+      "score": 0.3999,
+      "all_scores": {
+        "faithfulness": 0.8333,
+        "context_recall": 0.9333,
+        "context_precision": 0.3999,
+        "answer_relevancy": 0.0988
+      },
+      "diagnosis": "Too many irrelevant chunks — BM25 trả về nhiều chunk về lương, nghỉ phép không liên quan",
+      "suggested_fix": "Add reranking hoặc metadata filter theo loại chính sách"
+    },
+    {
+      "question": "Nhân viên được nghỉ bao nhiêu ngày phép năm?",
+      "avg_score": 0.4347,
+      "worst_metric": "context_precision",
+      "score": 0.4000,
+      "all_scores": {
+        "faithfulness": 0.8333,
+        "context_recall": 0.9333,
+        "context_precision": 0.4000,
+        "answer_relevancy": 0.0988
+      },
+      "diagnosis": "Too many irrelevant chunks — nhiều văn bản về phép năm (v2023, v2024) gây nhiễu",
+      "suggested_fix": "version-aware retrieval, thêm metadata filter theo năm"
+    },
+    {
+      "question": "Nhân viên được nghỉ bao nhiêu ngày khi kết hôn?",
+      "avg_score": 0.5187,
+      "worst_metric": "context_precision",
+      "score": 0.4000,
+      "all_scores": {
+        "faithfulness": 0.8333,
+        "context_recall": 0.9333,
+        "context_precision": 0.4000,
+        "answer_relevancy": 0.0988
+      },
+      "diagnosis": "Too many irrelevant chunks — context chứa nhiều loại nghỉ phép đặc biệt khác",
+      "suggested_fix": "Tối ưu prompt template, thêm category filter"
+    },
+    {
+      "question": "Phụ cấp ăn trưa hàng tháng là bao nhiêu?",
+      "avg_score": 0.6520,
+      "worst_metric": "answer_relevancy",
+      "score": 0.0988,
+      "all_scores": {
+        "faithfulness": 0.8333,
+        "context_recall": 0.9333,
+        "context_precision": 0.4000,
+        "answer_relevancy": 0.0988
+      },
+      "diagnosis": "Answer doesn't match question — answer format không khớp query expectation",
+      "suggested_fix": "Improve prompt template với instruction rõ ràng hơn"
+    },
+    {
+      "question": "Bảo hiểm sức khỏe PVI có hạn mức bao nhiêu cho nhân viên?",
+      "avg_score": 0.7980,
+      "worst_metric": "answer_relevancy",
+      "score": 0.0988,
+      "all_scores": {
+        "faithfulness": 0.8333,
+        "context_recall": 0.9333,
+        "context_precision": 0.4000,
+        "answer_relevancy": 0.0988
+      },
+      "diagnosis": "Answer doesn't match question — context không chứa thông tin về PVI đầy đủ",
+      "suggested_fix": "Cải thiện chunking để giữ nguyên thông tin bảo hiểm"
+    }
+  ]
+}

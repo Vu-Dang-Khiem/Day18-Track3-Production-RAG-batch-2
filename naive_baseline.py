@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from src.m1_chunking import load_documents, chunk_basic
 from src.m2_search import DenseSearch
 from src.m4_eval import load_test_set, evaluate_ragas, save_report
-from config import NAIVE_COLLECTION
+from config import NAIVE_COLLECTION, get_llm_client
 
 
 def main():
@@ -34,20 +34,15 @@ def main():
     test_set = load_test_set()
     questions, answers, all_contexts, ground_truths = [], [], [], []
 
-    from config import OPENAI_API_KEY
-    llm_client = None
-    if OPENAI_API_KEY:
-        from openai import OpenAI
-        llm_client = OpenAI()
-
     for i, item in enumerate(test_set):
         results = search.search(item["question"], top_k=3, collection=NAIVE_COLLECTION)
         contexts = [r.text for r in results]
 
-        if llm_client and contexts:
+        client, model, provider = get_llm_client()
+        if client and contexts:
             try:
                 context_str = "\n\n".join(contexts)
-                resp = llm_client.chat.completions.create(model="gpt-4o-mini", messages=[
+                resp = client.chat.completions.create(model=model, messages=[
                     {"role": "system", "content": "Trả lời CHỈ dựa trên context. Nếu không có → nói 'Không tìm thấy.'"},
                     {"role": "user", "content": f"Context:\n{context_str}\n\nCâu hỏi: {item['question']}"},
                 ])
